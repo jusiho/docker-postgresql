@@ -1,0 +1,25 @@
+version: '3'
+services:
+  postgres:
+    container_name: ${DB_HOST}
+    image: ${DB_IMAGE}:${DB_TAG}
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWD}
+      - POSTGRES_USER=${DB_USER}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pierreblas123@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "123"
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
+volumes:
+  db-data:
